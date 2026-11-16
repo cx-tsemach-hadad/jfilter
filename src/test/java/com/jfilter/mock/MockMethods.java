@@ -163,7 +163,8 @@ public class MockMethods {
     private static MethodParameter findMethodParameterByName(String methodName) {
         Method method = findMethodByName(methodName);
         if (method != null) {
-            return new MethodParameter(method, 0);
+            // Index -1 refers to the method return type; Spring 7 validates that the index is within parameter bounds
+            return new MethodParameter(method, -1);
         } else
             return null;
     }
