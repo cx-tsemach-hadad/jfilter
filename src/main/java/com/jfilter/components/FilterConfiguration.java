@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +26,6 @@ import static com.jfilter.FilterConstantsHelper.MEDIA_SUB_TYPE_XML;
 import static com.jfilter.FilterConstantsHelper.MEDIA_SUB_TYPE_XML2;
 import static com.jfilter.FilterConstantsHelper.MEDIA_TYPE_APPLICATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.http.MediaType.APPLICATION_XML;
 
 /**
@@ -53,7 +53,8 @@ public class FilterConfiguration {
     private void configureDefaultMappers() {
         //Default JSON mappers
         setMapper(APPLICATION_JSON, Jackson2ObjectMapperBuilder.json().build());
-        setMapper(APPLICATION_JSON_UTF8, Jackson2ObjectMapperBuilder.json().build());
+        // MediaType.APPLICATION_JSON_UTF8 was removed in Spring 7; use the equivalent explicit media type
+        setMapper(new MediaType(APPLICATION_JSON, StandardCharsets.UTF_8),Jackson2ObjectMapperBuilder.json().build());
         setMapper(new MediaType(MEDIA_TYPE_APPLICATION, MEDIA_SUB_TYPE_JSON, Charset.defaultCharset()), Jackson2ObjectMapperBuilder.json().build());
         setMapper(new MediaType(MEDIA_TYPE_APPLICATION, MEDIA_SUB_TYPE_JSON2), Jackson2ObjectMapperBuilder.json().build());
 
