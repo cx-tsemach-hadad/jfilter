@@ -70,7 +70,10 @@ public class FilterObjectMapperBuilderTest {
 
     @Test
     public void testRegisteredModulesTrue() {
-        boolean timeModuleExist = registeredModule(filterObjectMapperTrue, JavaTimeModule.class.getName());
+        // Newer Jackson versions register JavaTimeModule under its artifact id (jackson-datatype-jsr310)
+        // instead of the class name
+        boolean timeModuleExist = registeredModule(filterObjectMapperTrue, JavaTimeModule.class.getName())
+                || registeredModule(filterObjectMapperTrue, "jackson-datatype-jsr310");
         assertTrue(timeModuleExist);
     }
 
